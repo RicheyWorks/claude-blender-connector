@@ -1,0 +1,40 @@
+{
+  "manifest_version": "0.3",
+  "name": "blender-connector",
+  "display_name": "Blender",
+  "version": "1.0.1",
+  "description": "Lets Claude work in your open Blender session: inspect the scene, run Python, screenshot the viewport and render.",
+  "long_description": "Pairs with the Claude Blender Bridge add-on. The add-on listens on 127.0.0.1 inside Blender; this extension forwards Claude's tool calls to it. Nothing leaves your computer except what Claude reads back through the tools.",
+  "author": { "name": "Richmond" },
+  "license": "MIT",
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/index.js"],
+      "env": { "BLENDER_PORT": "${user_config.port}" }
+    }
+  },
+  "tools": [
+    { "name": "blender_status", "description": "Check that Blender is open and the bridge add-on is listening" },
+    { "name": "get_scene_info", "description": "Summarize the current scene" },
+    { "name": "get_object_info", "description": "Details for one object" },
+    { "name": "execute_python", "description": "Run Python inside Blender" },
+    { "name": "viewport_screenshot", "description": "Capture the 3D Viewport" },
+    { "name": "render_image", "description": "Render the current frame" }
+  ],
+  "user_config": {
+    "port": {
+      "type": "number",
+      "title": "Blender bridge port",
+      "description": "Must match the port shown in Blender's Claude sidebar tab",
+      "default": 9876,
+      "min": 1024,
+      "max": 65535,
+      "required": false
+    }
+  },
+  "compatibility": { "platforms": ["win32", "darwin", "linux"], "runtimes": { "node": ">=18.0.0" } },
+  "keywords": ["blender", "3d", "art", "render"]
+}
