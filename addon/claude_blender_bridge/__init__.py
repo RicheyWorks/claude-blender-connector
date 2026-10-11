@@ -14,7 +14,7 @@ Wire format: one JSON object per line.
 bl_info = {
     "name": "Claude Blender Bridge",
     "author": "Richmond + Claude",
-    "version": (1, 0, 1),
+    "version": (1, 0, 2),
     "blender": (3, 6, 0),
     "location": "3D Viewport > Sidebar (N) > Claude",
     "description": "Lets Claude inspect the scene, run Python, take viewport screenshots and render",
@@ -498,9 +498,13 @@ def _autostart():
 
 @persistent
 def _on_load(_dummy):
-    # File > Open drops non-persistent timers; make sure the pump is alive.
-    if is_running() and not bpy.app.timers.is_registered(_timer):
-        bpy.app.timers.register(_timer, first_interval=0.1, persistent=True)
+    # Loading a .blend (including the one Blender is launched with) drops
+    # non-persistent timers, so re-check the pump and the autostart here.
+    if is_running():
+        if not bpy.app.timers.is_registered(_timer):
+            bpy.app.timers.register(_timer, first_interval=0.1, persistent=True)
+    else:
+        _autostart()
 
 
 _classes = (ClaudeBridgePrefs, CLAUDE_OT_bridge_start, CLAUDE_OT_bridge_stop, CLAUDE_PT_bridge)
@@ -511,7 +515,7 @@ def register():
         bpy.utils.register_class(c)
     if _on_load not in bpy.app.handlers.load_post:
         bpy.app.handlers.load_post.append(_on_load)
-    bpy.app.timers.register(_autostart, first_interval=0.5)
+    bpy.app.timers.register(_autostart, first_interval=0.5, persistent=True)
 
 
 def unregister():

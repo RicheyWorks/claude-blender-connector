@@ -7,7 +7,7 @@ const readline = require('readline');
 
 const HOST = process.env.BLENDER_HOST || '127.0.0.1';
 const PORT = parseInt(process.env.BLENDER_PORT || '9876', 10) || 9876;
-const SERVER_INFO = { name: 'blender', version: '1.0.1' };
+const SERVER_INFO = { name: 'blender', version: '1.0.2' };
 const SUPPORTED = ['2025-06-18', '2025-03-26', '2024-11-05'];
 
 const TOOLS = [

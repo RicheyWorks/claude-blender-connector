@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "blender-connector",
   "display_name": "Blender",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Lets Claude work in your open Blender session: inspect the scene, run Python, screenshot the viewport and render.",
   "long_description": "Pairs with the Claude Blender Bridge add-on. The add-on listens on 127.0.0.1 inside Blender; this extension forwards Claude's tool calls to it. Nothing leaves your computer except what Claude reads back through the tools.",
   "author": { "name": "Richmond" },
